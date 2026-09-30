@@ -2,6 +2,7 @@
 
 import asyncio
 import os
+import sys
 from collections.abc import AsyncGenerator
 
 import pytest
@@ -16,11 +17,17 @@ from app.db.session import get_db
 from app.main import app
 from app.models import User
 
-# Test database URL — use the same DB but a separate schema or the same URL
-# Tests use an in-memory approach: we create/drop tables per test session
+# Ensure Windows selector event loop policy for async DB operations on Windows
+if sys.platform == "win32":
+    try:
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    except Exception:
+        pass
+
+# Default to self-contained async SQLite database for zero-dependency 1-command runs
 TEST_DB_URL = os.environ.get(
     "TEST_DATABASE_URL",
-    os.environ.get("DATABASE_URL", "postgresql+psycopg://drd_user:drd_password@localhost:5432/drd_db"),
+    "sqlite+aiosqlite:///./test_suite.db",
 )
 
 if TEST_DB_URL.startswith("postgresql://"):
@@ -31,13 +38,6 @@ elif "+psycopg_async://" in TEST_DB_URL:
 
 test_engine = create_async_engine(TEST_DB_URL, echo=False)
 TestSessionFactory = async_sessionmaker(test_engine, expire_on_commit=False)
-
-
-@pytest.fixture(scope="session")
-def event_loop():
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
 
 
 @pytest_asyncio.fixture(scope="function")
