@@ -2,6 +2,8 @@
 # Entrypoint script: run migrations, seed data, then start server.
 set -e
 
+export PYTHONPATH="/app:${PYTHONPATH}"
+
 echo "Running migrations..."
 cd /app
 alembic upgrade head

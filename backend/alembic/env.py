@@ -1,7 +1,11 @@
 """Alembic env.py — reads DATABASE_URL from environment or .env."""
 
 import os
+import sys
 from logging.config import fileConfig
+
+# Ensure /app is in sys.path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from alembic import context
 from dotenv import load_dotenv
