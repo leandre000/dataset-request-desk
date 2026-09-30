@@ -4,6 +4,22 @@ An internal web platform for robotics teleoperation data collection, dataset req
 
 ---
 
+## Live Production Deployment (Render)
+
+| Service | Live Production URL | Description |
+| :--- | :--- | :--- |
+| **Frontend Web App** | [https://drd-frontend.onrender.com](https://drd-frontend.onrender.com) | React 18 SPA (Light UI, Operations & Request Desk) |
+| **Backend API** | [https://drd-backend-dv5r.onrender.com](https://drd-backend-dv5r.onrender.com) | FastAPI REST API with live health check |
+| **Interactive API Docs** | [https://drd-backend-dv5r.onrender.com/docs](https://drd-backend-dv5r.onrender.com/docs) | Swagger OpenAPI UI |
+| **Database** | Managed PostgreSQL 16 (Frankfurt) | Automated migrations & seeded data |
+
+### Evaluation Credentials:
+- **Administrator**: `admin@example.com` / `admin123` (Full RBAC, User Management, Operations)
+- **Operator**: `ops1@example.com` / `ops123` (Episode Assignments, CSV Import, Analytics)
+- **Client**: `client-a@example.com` / `client123` (Request Submission, Acceptance/Rejection)
+
+---
+
 ## 1. Executive Summary & Purpose
 
 In robot teleoperation, recording stations produce **episodes** (short video recordings and sensor metadata of robots performing tasks like picking cups, opening drawers, and sorting items). Clients submit **dataset requests** specifying task parameters, target episode counts, and deadlines. Internal operations teams fulfill these requests by assigning qualified episodes, moving requests through review stages, and delivering datasets.

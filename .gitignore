@@ -16,16 +16,12 @@ node_modules/
 frontend/node_modules/
 
 # Environment & local state
-.env
-.env.local
-.env.production
 *.db
 *.sqlite
 drd.db
 backend/drd.db
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -44,3 +40,7 @@ htmlcov/
 
 # Local tools
 .local/
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+config.bat
