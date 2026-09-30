@@ -7,7 +7,6 @@ import { Button } from '../components/Button';
 import {
   Eye,
   EyeOff,
-  CheckCircle2,
   ShieldCheck,
   Zap,
   BarChart3,
@@ -16,58 +15,8 @@ import {
   ArrowRight,
   Lock,
   Mail,
-  UserCheck,
 } from 'lucide-react';
 import { getErrorMessage } from '../utils';
-
-interface DemoAccount {
-  label: string;
-  role: 'admin' | 'operator' | 'client';
-  name: string;
-  email: string;
-  password: string;
-  description: string;
-  badgeColor: string;
-}
-
-const DEMO_ACCOUNTS: DemoAccount[] = [
-  {
-    label: 'Admin',
-    role: 'admin',
-    name: 'Ada Admin',
-    email: 'admin@example.com',
-    password: 'admin123',
-    description: 'User access control, role modifications & all operations',
-    badgeColor: 'bg-purple-50 text-purple-700 border-purple-200',
-  },
-  {
-    label: 'Operator',
-    role: 'operator',
-    name: 'Olu Operator',
-    email: 'ops1@example.com',
-    password: 'ops123',
-    description: 'Episode assignments, CSV dirty data import & pipeline analytics',
-    badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
-  },
-  {
-    label: 'Client A',
-    role: 'client',
-    name: 'Acme Robotics',
-    email: 'client-a@example.com',
-    password: 'client123',
-    description: 'Submits dataset requests, reviews & accepts deliveries',
-    badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  },
-  {
-    label: 'Client B',
-    role: 'client',
-    name: 'Beta Labs',
-    email: 'client-b@example.com',
-    password: 'client123',
-    description: 'Tenant isolation testing (IDOR prevention verification)',
-    badgeColor: 'bg-amber-50 text-amber-700 border-amber-200',
-  },
-];
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -75,8 +24,8 @@ export default function LoginPage() {
   const { addToast } = useToast();
   const [searchParams] = useSearchParams();
 
-  const [email, setEmail] = useState('admin@example.com');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -96,13 +45,6 @@ export default function LoginPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const fillDemo = (acc: DemoAccount) => {
-    setEmail(acc.email);
-    setPassword(acc.password);
-    setError('');
-    addToast(`Selected ${acc.label} credentials (${acc.name})`, 'info');
   };
 
   return (
@@ -196,7 +138,7 @@ export default function LoginPage() {
             <div>
               <h2 className="text-2xl font-bold text-slate-900">Sign in to your account</h2>
               <p className="text-xs text-slate-500 mt-1">
-                Enter your credentials or click any demo role below to test the platform.
+                Enter your credentials to access your organization's workspace.
               </p>
             </div>
 
@@ -225,7 +167,7 @@ export default function LoginPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="operator@example.com"
+                    placeholder="name@example.com"
                     className="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
@@ -266,42 +208,6 @@ export default function LoginPage() {
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </form>
-
-            {/* Quick Demo Logins Section */}
-            <div className="pt-2 border-t border-slate-100">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  1-Click Evaluator Personas
-                </span>
-                <span className="text-[10px] text-indigo-600 font-semibold">Click to populate</span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
-                {DEMO_ACCOUNTS.map((acc) => {
-                  const isSelected = email === acc.email;
-                  return (
-                    <button
-                      key={acc.email}
-                      type="button"
-                      onClick={() => fillDemo(acc)}
-                      className={`text-left p-2.5 rounded-lg border transition-all ${
-                        isSelected
-                          ? 'border-indigo-500 bg-indigo-50/50 ring-1 ring-indigo-500'
-                          : 'border-slate-200 hover:border-slate-300 bg-slate-50/50 hover:bg-slate-50'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-slate-800">{acc.label}</span>
-                        <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${acc.badgeColor}`}>
-                          {acc.role}
-                        </span>
-                      </div>
-                      <p className="text-[10px] text-slate-500 truncate mt-0.5">{acc.name}</p>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
           </div>
         </div>
       </main>

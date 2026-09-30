@@ -337,7 +337,7 @@ export default function UsersPage() {
       {/* Confirmation Modal */}
       {confirmTarget && (
         <ConfirmModal
-          isOpen={true}
+          open={true}
           title={confirmTarget.is_active ? 'Deactivate User Account' : 'Reactivate User Account'}
           message={`Are you sure you want to ${
             confirmTarget.is_active ? 'deactivate' : 'activate'
